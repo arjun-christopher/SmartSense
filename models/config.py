@@ -11,7 +11,7 @@ class AppConfig(BaseModel):
     name: str = "SmartSense"
     version: str = "1.0.0"
     debug: bool = False
-    log_level: str = Field(default="INFO", regex="^(DEBUG|INFO|WARNING|ERROR|CRITICAL)$")
+    log_level: str = Field(default="INFO", pattern="^(DEBUG|INFO|WARNING|ERROR|CRITICAL)$")
 
 
 class MessageBusConfig(BaseModel):
