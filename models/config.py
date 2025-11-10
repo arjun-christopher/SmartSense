@@ -98,7 +98,7 @@ class SecurityConfig(BaseModel):
     """Security configuration"""
     action_whitelist_enabled: bool = True
     confirmation_required: bool = True
-    permission_level: str = Field(default="moderate", regex="^(safe|moderate|elevated|restricted)$")
+    permission_level: str = Field(default="moderate", pattern="^(safe|moderate|elevated|restricted)$")
     audit_logging: bool = True
 
 
