@@ -3,7 +3,6 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Status: Development Paused](https://img.shields.io/badge/status-development%20paused-red.svg)](https://github.com/arjun-christopher/SmartSense)
-[![On Hold](https://img.shields.io/badge/on%20hold-⏸️-lightgrey.svg)](https://github.com/arjun-christopher/SmartSense)
 
 > **⚠︎ PROJECT STATUS: DEVELOPMENT PAUSED**
 > 
@@ -11,10 +10,10 @@
 > 
 > **Current State:**
 > - Core architecture implemented
-> - ⏸Component integration paused
-> - ⏸Vision and speech modules incomplete
-> - ⏸UI/UX development halted
-> - ⏸Testing and documentation incomplete
+> - Component integration paused
+> - Vision and speech modules incomplete
+> - UI/UX development halted
+> - Testing and documentation incomplete
 > 
 > **Development will resume at a later date.** Stay tuned for future updates.
 > 
