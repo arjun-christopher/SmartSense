@@ -69,7 +69,7 @@ class Command(BaseModel):
 class WindowCommand(BaseModel):
     """Window management command"""
 
-    command_type: CommandType = Field(..., regex="^(window_focus|window_close|window_minimize|window_maximize|window_move)$")
+    command_type: CommandType = Field(..., pattern="^(window_focus|window_close|window_minimize|window_maximize|window_move)$")
     window_title: str = Field(..., description="Title or partial title of the window")
     window_class: Optional[str] = None
     process_name: Optional[str] = None
@@ -87,13 +87,13 @@ class WindowCommand(BaseModel):
 class MouseCommand(BaseModel):
     """Mouse action command"""
 
-    command_type: CommandType = Field(..., regex="^(click|right_click|double_click|drag|scroll)$")
+    command_type: CommandType = Field(..., pattern="^(click|right_click|double_click|drag|scroll)$")
     x_coordinate: int = Field(..., ge=0, le=9999)
     y_coordinate: int = Field(..., ge=0, le=9999)
-    button: str = Field(default="left", regex="^(left|right|middle)$")
+    button: str = Field(default="left", pattern="^(left|right|middle)$")
     x_end_coordinate: Optional[int] = Field(default=None, ge=0, le=9999)
     y_end_coordinate: Optional[int] = Field(default=None, ge=0, le=9999)
-    scroll_direction: Optional[str] = Field(default=None, regex="^(up|down|left|right)$")
+    scroll_direction: Optional[str] = Field(default=None, pattern="^(up|down|left|right)$")
     scroll_amount: Optional[int] = Field(default=1, ge=-100, le=100)
     move_duration: float = Field(default=0.1, ge=0.01, le=5.0)
 
@@ -113,10 +113,10 @@ class MouseCommand(BaseModel):
 class KeyboardCommand(BaseModel):
     """Keyboard action command"""
 
-    command_type: CommandType = Field(..., regex="^(type|hotkey|press|key_sequence)$")
+    command_type: CommandType = Field(..., pattern="^(type|hotkey|press|key_sequence)$")
     text: Optional[str] = None
     key: Optional[str] = None
-    modifier: Optional[str] = Field(default=None, regex="^(ctrl|alt|shift|win)$")
+    modifier: Optional[str] = Field(default=None, pattern="^(ctrl|alt|shift|win)$")
     key_sequence: Optional[List[str]] = None
     target_window: Optional[str] = None
     typing_speed: float = Field(default=0.05, ge=0.001, le=1.0)
@@ -149,7 +149,7 @@ class KeyboardCommand(BaseModel):
 class ApplicationCommand(BaseModel):
     """Application control command"""
 
-    command_type: CommandType = Field(..., regex="^(launch|close_app|restart_app|switch_to)$")
+    command_type: CommandType = Field(..., pattern="^(launch|close_app|restart_app|switch_to)$")
     application_name: str = Field(..., description="Name of the application")
     executable_path: Optional[str] = None
     arguments: List[str] = Field(default_factory=list)
@@ -167,7 +167,7 @@ class ApplicationCommand(BaseModel):
 class FileCommand(BaseModel):
     """File operation command"""
 
-    command_type: CommandType = Field(..., regex="^(open_file|delete_file|copy_file|move_file)$")
+    command_type: CommandType = Field(..., pattern="^(open_file|delete_file|copy_file|move_file)$")
     file_path: str = Field(..., description="Path to the file")
     destination_path: Optional[str] = None
     use_default_app: bool = True

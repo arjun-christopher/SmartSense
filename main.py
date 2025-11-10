@@ -22,7 +22,7 @@ sys.path.insert(0, str(project_root))
 
 from utils.logger import get_logger
 from utils.config import ConfigManager
-from utils.service_locator import ServiceLocator
+from utils.service_locator import ServiceLocator, register_service
 from utils.lifecycle import LifecycleManager
 from core.message_bus import AsyncMessageBus
 from ui.main_ui import UIHandler
@@ -43,22 +43,22 @@ class SmartSense:
         try:
             self.logger.info("Initializing SmartSense AI Assistant...")
 
-            # Initialize configuration manager
+                        # Initialize configuration manager
             self.config_manager = ConfigManager()
-            await self.config_manager.load_config("config.yaml")
+            config = await self.config_manager.load_config("config.yaml")
 
-            # Register core services
-            ServiceLocator.register_service(ConfigManager, self.config_manager)
+            # Register core services using module-level function
+            register_service(ConfigManager, self.config_manager)
 
-            # Initialize lifecycle manager
-            self.lifecycle_manager = LifecycleManager(self.config_manager)
+            # Initialize lifecycle manager with the loaded config
+            self.lifecycle_manager = LifecycleManager(config)
             await self.lifecycle_manager.initialize()
 
             # Get message bus from service locator
-            self.message_bus = ServiceLocator.get_service(AsyncMessageBus)
+            self.message_bus = self.lifecycle_manager.service_locator.get_service(AsyncMessageBus)
 
-            # Initialize UI handler
-            self.ui_handler = UIHandler(self.message_bus, self.config_manager)
+            # Initialize UI handler with config
+            self.ui_handler = UIHandler(self.message_bus, config)
             await self.ui_handler.initialize()
 
             self.logger.info("SmartSense AI Assistant initialized successfully")
@@ -101,7 +101,8 @@ class SmartSense:
                 await self.lifecycle_manager.shutdown()
 
             # Clear services
-            ServiceLocator.clear_services()
+            service_locator = ServiceLocator()
+            service_locator.clear_services()
 
             self.logger.info("SmartSense AI Assistant shutdown complete")
 

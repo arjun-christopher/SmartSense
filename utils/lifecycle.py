@@ -15,7 +15,10 @@ from models.config import SmartSenseConfig
 from utils.logger import get_logger
 from utils.service_locator import ServiceLocator
 from core.message_bus import AsyncMessageBus
-from core.base import BaseComponent
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from core.base import BaseComponent
 
 
 class SystemPhase(str, Enum):
@@ -44,7 +47,7 @@ class ComponentPhase(str, Enum):
 class ComponentInfo:
     """Information about a registered component"""
 
-    def __init__(self, component: BaseComponent, priority: int = 0,
+    def __init__(self, component: "BaseComponent", priority: int = 0,
                  dependencies: List[Type] = None, auto_start: bool = True):
         self.component = component
         self.priority = priority  # Higher priority = earlier initialization
@@ -149,7 +152,7 @@ class LifecycleManager:
             processing_timeout=self.config.message_bus.processing_timeout,
             retry_attempts=self.config.message_bus.retry_attempts
         )
-        self.service_locator.container.register_singleton(AsyncMessageBus, message_bus)
+        self.service_locator.container.register_singleton(AsyncMessageBus, instance=message_bus)
         await message_bus.initialize()
 
         # Configuration manager (singleton)
@@ -230,12 +233,8 @@ class LifecycleManager:
             auto_start=True
         )
 
-        await self._register_component(
-            UIHandler("UIHandler", message_bus, self.config),
-            priority=50,
-            dependencies=[AsyncMessageBus],
-            auto_start=True
-        )
+        # Note: UIHandler will be created later with proper message bus reference
+        # For now, we skip registration here and handle it in main.py directly
 
         # Register action handlers
         await self._register_component(
@@ -247,7 +246,7 @@ class LifecycleManager:
 
         self.logger.info(f"Registered {len(self.components)} components")
 
-    async def _register_component(self, component: BaseComponent, priority: int = 0,
+    async def _register_component(self, component: "BaseComponent", priority: int = 0,
                                  dependencies: List[Type] = None,
                                  auto_start: bool = True) -> None:
         """Register a single component"""
@@ -260,9 +259,9 @@ class LifecycleManager:
 
         self.components[component.name] = component_info
 
-        # Register component with service locator
+        # Register component with service locator using instance parameter
         component_type = type(component)
-        self.service_locator.container.register_singleton(component_type, component)
+        self.service_locator.container.register_singleton(component_type, instance=component)
 
         self.logger.debug(f"Registered component: {component.name}")
 
@@ -365,13 +364,13 @@ class LifecycleManager:
                 component_info.phase = ComponentPhase.INITIALIZING
                 component_info.initialized_at = datetime.now()
 
+                # Register with message bus first (required for subscribe_to_event in initialize)
+                await component_info.component._register_with_message_bus(message_bus)
+
                 # Initialize component
                 success = await component_info.component.initialize()
 
                 if success:
-                    # Register with message bus
-                    await component_info.component._register_with_message_bus(message_bus)
-
                     component_info.phase = ComponentPhase.READY
                     component_info.started_at = datetime.now()
                     self.logger.info(f"Component initialized successfully: {component_name}")

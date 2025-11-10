@@ -427,6 +427,10 @@ class ServiceLocator:
         """Get a service instance (shortcut method)"""
         return self._container.get(service_type)
 
+    def get_optional_service(self, service_type: Type[T]) -> Optional[T]:
+        """Get a service instance, returning None if not registered (shortcut method)"""
+        return self._container.get_optional(service_type)
+
     def clear_services(self) -> None:
         """Clear all services"""
         self._container.clear_all()

@@ -28,7 +28,8 @@ class NLPConfig(BaseModel):
     confidence_threshold: float = Field(default=0.7, ge=0.0, le=1.0)
     max_tokens: int = Field(default=4000, ge=100, le=32000)
 
-    @validator('primary_model')
+    @field_validator('primary_model')
+    @classmethod
     def validate_primary_model(cls, v):
         allowed_models = [
             "distilbert-base-uncased",
@@ -48,7 +49,8 @@ class VisionConfig(BaseModel):
     ocr_engine: str = Field(default="tesseract", pattern="^(tesseract|easyocr|paddleocr)$")
     image_max_size: List[int] = Field(default=[1920, 1080], min_length=2, max_length=2)
 
-    @validator('image_max_size')
+    @field_validator('image_max_size')
+    @classmethod
     def validate_image_size(cls, v):
         if v[0] < 100 or v[1] < 100:
             raise ValueError("Image dimensions must be at least 100x100")
@@ -56,14 +58,14 @@ class VisionConfig(BaseModel):
             raise ValueError("Image dimensions must not exceed 4096x4096")
         return v
 
-
 class SpeechConfig(BaseModel):
     """Speech processing configuration"""
     recognition_model: str = Field(default="whisper-base", pattern="^(whisper-base|whisper-small|whisper-medium)$")
     synthesis_engine: str = Field(default="pyttsx3", pattern="^(pyttsx3|gtts|edge-tts)$")
     sample_rate: int = Field(default=16000, ge=8000, le=48000)
 
-    @validator('sample_rate')
+    @field_validator('sample_rate')
+    @classmethod
     def validate_sample_rate(cls, v):
         valid_rates = [8000, 11025, 16000, 22050, 44100, 48000]
         if v not in valid_rates:
@@ -85,7 +87,8 @@ class UIConfig(BaseModel):
     font_size: int = Field(default=12, ge=8, le=24)
     auto_save: bool = True
 
-    @validator('window_size')
+    @field_validator('window_size')
+    @classmethod
     def validate_window_size(cls, v):
         if v[0] < 400 or v[1] < 300:
             raise ValueError("Window size must be at least 400x300")
@@ -109,7 +112,8 @@ class SystemConfig(BaseModel):
     model_cache_size: str = Field(default="2GB", pattern=r"^\d+[KMGT]?B$")
     log_rotation: str = Field(default="daily", pattern="^(daily|weekly|monthly|size)$")
 
-    @validator('model_cache_size')
+    @field_validator('model_cache_size')
+    @classmethod
     def validate_cache_size(cls, v):
         # Convert to bytes for validation
         size_str = v.upper()
@@ -165,7 +169,8 @@ class EnvironmentConfig(BaseModel):
                 raise ValueError(f"Log level {v} not in valid levels: {valid_levels}")
         return v
 
-    @validator('SMARTSENSE_DEBUG')
+    @field_validator('SMARTSENSE_DEBUG')
+    @classmethod
     def validate_debug(cls, v):
         if v is not None:
             return v.lower() in ('true', '1', 'yes', 'on')

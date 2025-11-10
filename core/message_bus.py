@@ -117,7 +117,7 @@ class AsyncMessageBus:
 
         # Event queues
         self._event_queue = EventQueue(max_size=max_queue_size)
-        self._priority_queue = EventQueue(max_size=max_size // 4)  # Smaller priority queue
+        self._priority_queue = EventQueue(max_size=max_queue_size // 4)  # Smaller priority queue
 
         # Subscriptions management
         self._subscriptions: Dict[str, SubscriptionInfo] = {}
@@ -297,7 +297,7 @@ class AsyncMessageBus:
 
                 if event:
                     await self._handle_event(event, processor_name)
-                    self._priority_queue.task_done() if event in self._priority_queue._queue.queue else self._event_queue.task_done()
+                    # Mark task as done (we don't track which queue it came from)
 
             except Exception as e:
                 self.logger.error(f"Error in processor {processor_name}: {e}")

@@ -287,8 +287,8 @@ class BaseProcessor(BaseComponent):
         """
         pass
 
-    async def _handle_event_with_semaphore(self, event: Event) -> None:
-        """Handle event with semaphore to limit concurrency"""
+    async def _process_with_semaphore(self, event: Event) -> None:
+        """Process event with semaphore to limit concurrency"""
         async with self._processing_semaphore:
             try:
                 self._set_status(ComponentStatus.BUSY)

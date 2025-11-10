@@ -9,7 +9,7 @@ import asyncio
 from typing import Optional, Dict, Any, List
 import io
 
-from models.events import Event, EventType, VisionResponseData, DetectionResult, OCRResult
+from models.events import Event, EventType, VisionResponseData
 from models.config import SmartSenseConfig
 from core.base import BaseProcessor
 from utils.logger import get_logger
@@ -101,6 +101,9 @@ class VisionProcessor(BaseProcessor):
             # Placeholder implementation
             # In a real implementation, this would use actual CV models
 
+            # Import detection models here to avoid circular imports
+            from models.events import DetectionResult, OCRResult
+            
             # Detect objects (placeholder)
             objects_detected = [
                 DetectionResult(

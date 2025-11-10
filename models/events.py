@@ -90,14 +90,39 @@ class NLPResponseData(BaseModel):
     language: Optional[str] = Field(default=None, description="Detected language")
 
 
+class DetectionResult(BaseModel):
+    """Data structure for object detection results"""
+
+    class_name: str = Field(..., description="Detected object class")
+    confidence: float = Field(..., ge=0.0, le=1.0, description="Detection confidence score")
+    bounding_box: List[int] = Field(..., description="Bounding box [x, y, width, height]")
+    metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional detection metadata")
+
+
+class OCRResult(BaseModel):
+    """Data structure for OCR results"""
+
+    extracted_text: str = Field(..., description="Text extracted from image")
+    confidence: float = Field(..., ge=0.0, le=1.0, description="OCR confidence score")
+    language: str = Field(default="en", description="Detected language")
+    bounding_boxes: Optional[List[List[int]]] = Field(default=None, description="Bounding boxes for text regions")
+    metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional OCR metadata")
+
+
 class VisionResponseData(BaseModel):
     """Data structure for vision processing results"""
 
-    objects_detected: List[Dict[str, Any]] = Field(default_factory=list, description="Objects detected in image")
-    text_found: Optional[str] = Field(default=None, description="Text extracted via OCR")
+    image_format: str = Field(..., description="Image format")
+    image_dimensions: List[int] = Field(..., description="Image dimensions [width, height]")
+    objects_detected: List[DetectionResult] = Field(default_factory=list, description="Objects detected in image")
+    ocr_result: Optional[OCRResult] = Field(default=None, description="OCR results if applicable")
     scene_classification: Optional[str] = Field(default=None, description="Scene classification")
-    confidence_scores: Dict[str, float] = Field(default_factory=dict, description="Confidence scores for various detections")
+    features: Dict[str, Any] = Field(default_factory=dict, description="Image features")
     processing_metadata: Dict[str, Any] = Field(default_factory=dict)
+    
+    # Deprecated fields for backward compatibility
+    text_found: Optional[str] = Field(default=None, description="Deprecated: use ocr_result.extracted_text")
+    confidence_scores: Dict[str, float] = Field(default_factory=dict, description="Deprecated: use object confidence scores")
 
 
 class ContextData(BaseModel):

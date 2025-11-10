@@ -55,7 +55,7 @@ class EntityResult(BaseModel):
 class SentimentResult(BaseModel):
     """Sentiment analysis result"""
 
-    sentiment: str = Field(..., regex="^(positive|negative|neutral)$")
+    sentiment: str = Field(..., pattern="^(positive|negative|neutral)$")
     confidence: float = Field(..., ge=0.0, le=1.0, description="Confidence in sentiment analysis")
     score: float = Field(..., ge=-1.0, le=1.0, description="Sentiment score (-1 to 1)")
     emotions: Dict[str, float] = Field(default_factory=dict, description="Emotion scores")
