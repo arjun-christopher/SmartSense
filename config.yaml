@@ -1,0 +1,51 @@
+# SmartSense Configuration
+app:
+  name: "SmartSense"
+  version: "1.0.0"
+  debug: false
+  log_level: "INFO"
+
+# Message Bus Configuration
+message_bus:
+  max_queue_size: 1000
+  processing_timeout: 30
+  retry_attempts: 3
+
+# AI Model Configuration
+models:
+  nlp:
+    primary_model: "distilbert-base-uncased"
+    fallback_model: "rule-based"
+    confidence_threshold: 0.7
+    max_tokens: 4000
+
+  vision:
+    object_detector: "yolov5"
+    ocr_engine: "tesseract"
+    image_max_size: [1920, 1080]
+
+  speech:
+    recognition_model: "whisper-base"
+    synthesis_engine: "pyttsx3"
+    sample_rate: 16000
+
+# UI Configuration
+ui:
+  theme: "light"
+  window_size: [800, 600]
+  font_size: 12
+  auto_save: true
+
+# Security Configuration
+security:
+  action_whitelist_enabled: true
+  confirmation_required: true
+  permission_level: "moderate"
+  audit_logging: true
+
+# System Configuration
+system:
+  temp_dir: "./data/temp"
+  cache_dir: "./data/cache"
+  model_cache_size: "2GB"
+  log_rotation: "daily"
