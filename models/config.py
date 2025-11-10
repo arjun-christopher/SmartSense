@@ -80,8 +80,8 @@ class AIModelsConfig(BaseModel):
 
 class UIConfig(BaseModel):
     """User interface configuration"""
-    theme: str = Field(default="light", regex="^(light|dark|auto)$")
-    window_size: List[int] = Field(default=[800, 600], min_items=2, max_items=2)
+    theme: str = Field(default="light", pattern="^(light|dark|auto)$")
+    window_size: List[int] = Field(default=[800, 600], min_length=2, max_length=2)
     font_size: int = Field(default=12, ge=8, le=24)
     auto_save: bool = True
 
