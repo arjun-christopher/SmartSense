@@ -3,7 +3,7 @@ Configuration data models using Pydantic for validation.
 """
 
 from typing import List, Optional, Dict, Any
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class AppConfig(BaseModel):
