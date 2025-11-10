@@ -156,7 +156,8 @@ class EnvironmentConfig(BaseModel):
     SMARTSENSE_API_KEY: Optional[str] = None
     SMARTSENSE_DEBUG: Optional[str] = None
 
-    @validator('SMARTSENSE_LOG_LEVEL')
+    @field_validator('SMARTSENSE_LOG_LEVEL')
+    @classmethod
     def validate_log_level(cls, v):
         if v is not None:
             valid_levels = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
