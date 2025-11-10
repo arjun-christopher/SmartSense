@@ -106,8 +106,8 @@ class SystemConfig(BaseModel):
     """System configuration"""
     temp_dir: str = "./data/temp"
     cache_dir: str = "./data/cache"
-    model_cache_size: str = Field(default="2GB", regex="^\d+[KMGT]?B$")
-    log_rotation: str = Field(default="daily", regex="^(daily|weekly|monthly|size)$")
+    model_cache_size: str = Field(default="2GB", pattern=r"^\d+[KMGT]?B$")
+    log_rotation: str = Field(default="daily", pattern="^(daily|weekly|monthly|size)$")
 
     @validator('model_cache_size')
     def validate_cache_size(cls, v):
