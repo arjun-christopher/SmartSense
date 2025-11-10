@@ -2,20 +2,23 @@
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Status: Under Development](https://img.shields.io/badge/status-under%20development-orange.svg)](https://github.com/arjun-christopher/SmartSense)
-[![Work in Progress](https://img.shields.io/badge/WIP-🚧-yellow.svg)](https://github.com/arjun-christopher/SmartSense)
+[![Status: Development Paused](https://img.shields.io/badge/status-development%20paused-red.svg)](https://github.com/arjun-christopher/SmartSense)
+[![On Hold](https://img.shields.io/badge/on%20hold-⏸️-lightgrey.svg)](https://github.com/arjun-christopher/SmartSense)
 
-> **⚠︎ PROJECT STATUS: UNDER ACTIVE DEVELOPMENT**
+> **⚠︎ PROJECT STATUS: DEVELOPMENT PAUSED**
 > 
-> This project is currently in active development and is **not yet production-ready**. Features are being implemented and tested. Expect breaking changes, incomplete functionality, and ongoing improvements.
+> Development of this project has been **temporarily stopped** and will remain on hold for the next few months. The project is **not production-ready** and is currently inactive.
 > 
+> **Current State:**
 > - Core architecture implemented
-> - Component integration in progress
-> - Vision and speech modules under development
-> - UI/UX being refined
-> - Testing and documentation ongoing
+> - ⏸Component integration paused
+> - ⏸Vision and speech modules incomplete
+> - ⏸UI/UX development halted
+> - ⏸Testing and documentation incomplete
 > 
-> **Contributions, feedback, and testing are welcome!** See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+> **Development will resume at a later date.** Stay tuned for future updates.
+> 
+> For now, the repository is archived for reference. Feel free to fork if you'd like to continue development independently.
 
 ## Overview
 
