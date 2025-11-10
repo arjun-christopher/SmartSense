@@ -59,8 +59,8 @@ class VisionConfig(BaseModel):
 
 class SpeechConfig(BaseModel):
     """Speech processing configuration"""
-    recognition_model: str = Field(default="whisper-base", regex="^(whisper-base|whisper-small|whisper-medium)$")
-    synthesis_engine: str = Field(default="pyttsx3", regex="^(pyttsx3|gtts|edge-tts)$")
+    recognition_model: str = Field(default="whisper-base", pattern="^(whisper-base|whisper-small|whisper-medium)$")
+    synthesis_engine: str = Field(default="pyttsx3", pattern="^(pyttsx3|gtts|edge-tts)$")
     sample_rate: int = Field(default=16000, ge=8000, le=48000)
 
     @validator('sample_rate')
