@@ -44,9 +44,9 @@ class NLPConfig(BaseModel):
 
 class VisionConfig(BaseModel):
     """Vision model configuration"""
-    object_detector: str = Field(default="yolov5", regex="^(yolov5|yolov8|faster_rcnn|ssd)$")
-    ocr_engine: str = Field(default="tesseract", regex="^(tesseract|easyocr|paddleocr)$")
-    image_max_size: List[int] = Field(default=[1920, 1080], min_items=2, max_items=2)
+    object_detector: str = Field(default="yolov5", pattern="^(yolov5|yolov8|faster_rcnn|ssd)$")
+    ocr_engine: str = Field(default="tesseract", pattern="^(tesseract|easyocr|paddleocr)$")
+    image_max_size: List[int] = Field(default=[1920, 1080], min_length=2, max_length=2)
 
     @validator('image_max_size')
     def validate_image_size(cls, v):
